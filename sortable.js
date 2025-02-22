@@ -114,3 +114,7 @@ function updateTable(tableBody, defaultFields, allHeroes, currentDisplayCount) {
 function getNestedValue(obj, path) {
     return path.split('.').reduce((acc, key) => acc?.[key], obj);
 }
+
+function filterBySearch() {
+    
+}

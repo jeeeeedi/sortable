@@ -13,22 +13,33 @@
     <h2>Heroes</h2>
     <p>[Placeholder: Some description...]</p>
 
- <!-- Select menu for pagination -->
- <label for="rowsPerPage">Show:</label>
- <select id="rowsPerPage">
-     <option value="10">10</option>
-     <option value="20" selected>20</option>
-     <option value="50">50</option>
-     <option value="100">100</option>
-     <option value="all">All</option>
- </select> entries
+    <!-- SEARCH -->
+    <div class="search">
+        <label for="searchBar">Search:</label>
+        <input type="text" id="searchInput" placeholder="Find a hero...">
+    </div>
 
- <table id="dataTable">
-     <thead>
-         <tr id="tableHeader"></tr>
-     </thead>
-     <tbody id="tableBody"></tbody>
- </table>
+    <!-- SELECT SHOW -->
+    <div class="show">
+        <label for="rowsPerPage">Show:</label>
+        <select id="rowsPerPage">
+            <option value="10">10</option>
+            <option value="20" selected>20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="all">All</option>
+        </select> entries
+    </div>
+
+    <br><br>
+
+    <!-- TABLE -->
+    <table id="dataTable">
+        <thead>
+            <tr id="tableHeader"></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
 
     <script type="module">
         import { sortable } from './sortable.js'
