@@ -1,9 +1,9 @@
 # 📋 TO-DO LIST
 
-## ✅ FETCH
+## ✅ FETCH: DONE
 - OK- fetch data -- just use the code provided
 
-## ✅ DISPLAY
+## ✅ DISPLAY: DONE
 - OK- table - dynamically created depending on the data
 - OK- only show some of the fields
 - OK- default 20 per page
@@ -18,7 +18,7 @@
 - searching "man" should find all superheros with "man" in their name: doesn't matter if searchkey is at start, end, inside or exact content of the value (see quest fifty shades of cold)
 - interactive: filtered after every keystroke/character input (see keycodes symphony)
 
-🚧 SORT: IN PROGRESS
+## 🚧 SORT: IN PROGRESS
 - sortable alphabetically or numerically (ascending is a-z, 1-9)
 - default: column name by ascending order
 - first click on heading: sort data ascending
