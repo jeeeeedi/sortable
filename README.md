@@ -13,10 +13,10 @@
 ⬇️⬇️⬇️
 
 ## 🚧 SEARCH: IN PROGRESS
-- search bar (but no need for button)
-- search name as string
-- searching "man" should find all superheros with "man" in their name: doesn't matter if searchkey is at start, end, inside or exact content of the value (see quest fifty shades of cold)
-- interactive: filtered after every keystroke/character input (see keycodes symphony)
+- OK- search bar (but no need for button)
+- OK- search name as string
+- OK- searching "man" should find all superheros with "man" in their name: doesn't matter if searchkey is at start, end, inside or exact content of the value (see quest fifty shades of cold)
+- OK- interactive: filtered after every keystroke/character input (see keycodes symphony)
 
 ## 🚧 SORT: IN PROGRESS
 - sortable alphabetically or numerically (ascending is a-z, 1-9)
@@ -28,6 +28,9 @@
 
 ## ??? SPEED
 - 5 minutes loading?
+
+## AUDIT
+- review audit!
 
 -----
 ## ⭐ BONUS

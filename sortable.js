@@ -12,12 +12,13 @@ function fetchData() {
     fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
         .then((response) => response.json()) // parse the response from JSON
         .then(loadData) // .then will call the `loadData` function with the JSON value.
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error("Error:", error));
 }
 
 function display(allHeroes) {
     if (allHeroes.length === 0) return;
 
+    //DISPLAY content based on defaultFields
     const defaultFields = {
         "ItemCounter": "", //TEMPORARY: to easily show how many items are showing
         "ID": "id", //TEMPORARY
@@ -38,20 +39,29 @@ function display(allHeroes) {
         "Alignment": "biography.alignment"
     };
 
-    let currentDisplayCount = 20; // Default display count
-
     const tableHeader = document.getElementById("tableHeader");
     const tableBody = document.getElementById("tableBody");
-    const rowsPerPageSelect = document.getElementById("rowsPerPage");
+    generateTableHeaders(tableHeader, defaultFields);
 
-    rowsPerPageSelect.addEventListener("change", (event) => {
-        currentDisplayCount = event.target.value === "all" ? "all" : parseInt(event.target.value);
-        updateTable(tableBody, defaultFields, allHeroes, currentDisplayCount);
+    let filteredHeroes = allHeroes; //start will allHeroes
+
+    //SEARCH get searchInput
+    document.getElementById("searchInput").addEventListener("input", function (event) {
+        const searchTerm = event.target.value.toLowerCase();
+        filteredHeroes = searchTerm === ""
+            ? allHeroes
+            : allHeroes.filter(hero => hero.name.toLowerCase().includes(searchTerm));
+        updateTable(tableBody, defaultFields, filteredHeroes, currentDisplayCount);
     });
 
-    generateTableHeaders(tableHeader, defaultFields);
-    updateTable(tableBody, defaultFields, allHeroes, currentDisplayCount); // Show first 20 items by default
-
+    //SHOW specified rowsPerPageSelect
+    let currentDisplayCount = 20; // Default
+    const rowsPerPageSelect = document.getElementById("rowsPerPage");
+    rowsPerPageSelect.addEventListener("change", (event) => {
+        currentDisplayCount = event.target.value === "all" ? "all" : parseInt(event.target.value);
+        updateTable(tableBody, defaultFields, filteredHeroes, currentDisplayCount);
+    });
+    updateTable(tableBody, defaultFields, filteredHeroes, currentDisplayCount); // Show first 20 items by default
 }
 
 function generateTableHeaders(tableHeader, defaultFields) {
@@ -65,17 +75,15 @@ function generateTableHeaders(tableHeader, defaultFields) {
         tableHeader.appendChild(th);
         headerCount++; //TEMPORARY
     });
-
-
 }
 
-function updateTable(tableBody, defaultFields, allHeroes, currentDisplayCount) {
+function updateTable(tableBody, defaultFields, filteredHeroes, currentDisplayCount) {
     tableBody.textContent = ""; // Clear existing rows
     let itemCount = 1; //TEMPORARY: to easily show how many are showing
 
     const heroesToShow = currentDisplayCount === "all"
-        ? allHeroes
-        : allHeroes.slice(0, currentDisplayCount);
+        ? filteredHeroes
+        : filteredHeroes.slice(0, currentDisplayCount);
 
     heroesToShow.forEach(hero => {
         let row = document.createElement("tr");
@@ -86,7 +94,7 @@ function updateTable(tableBody, defaultFields, allHeroes, currentDisplayCount) {
 
             if (header === "Icon") {
                 let img = document.createElement("img");
-                img.src = value || "https://commons.wikimedia.org/wiki/File:Icon_Simple_Error_2.png"; //error img isn't working properly
+                img.src = value || "https://commons.wikimedia.org/wiki/File:Icon_Simple_Error_2.png"; //TEMPORARY: error img isn't working properly
                 img.alt = hero.name;
                 data.appendChild(img);
             }
@@ -108,13 +116,8 @@ function updateTable(tableBody, defaultFields, allHeroes, currentDisplayCount) {
 
         tableBody.appendChild(row);
     });
-
 }
 
 function getNestedValue(obj, path) {
-    return path.split('.').reduce((acc, key) => acc?.[key], obj);
-}
-
-function filterBySearch() {
-    
+    return path.split(".").reduce((acc, key) => acc?.[key], obj);
 }
