@@ -9,14 +9,14 @@
 - OK- default 20 per page
 - OK- select page size from 10, 20,50, 100 or all results
 
-
-⬇️⬇️⬇️
-
 ## ✅ SEARCH: DONE
 - OK- search bar (but no need for button)
 - OK- search name as string
 - OK- searching "man" should find all superheros with "man" in their name: doesn't matter if searchkey is at start, end, inside or exact content of the value (see quest fifty shades of cold)
 - OK- interactive: filtered after every keystroke/character input (see keycodes symphony)
+
+
+⬇️⬇️⬇️
 
 ## 🚧 SORT: IN PROGRESS
 - sortable alphabetically or numerically (ascending is a-z, 1-9)
