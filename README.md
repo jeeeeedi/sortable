@@ -12,7 +12,7 @@
 
 ⬇️⬇️⬇️
 
-## 🚧 SEARCH: IN PROGRESS
+## ✅ SEARCH: DONE
 - OK- search bar (but no need for button)
 - OK- search name as string
 - OK- searching "man" should find all superheros with "man" in their name: doesn't matter if searchkey is at start, end, inside or exact content of the value (see quest fifty shades of cold)
