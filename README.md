@@ -1,13 +1,13 @@
 # 📋 TO-DO LIST
 
 ## ✅ FETCH
-fetch data -- just use the code provided
+- OK- fetch data -- just use the code provided
 
 ## ✅ DISPLAY
-ok- table - dynamically created depending on the data
-ok- only show some of the fields
-ok- default 20 per page
-ok- select page size from 10, 20,50, 100 or all results
+- OK- table - dynamically created depending on the data
+- OK- only show some of the fields
+- OK- default 20 per page
+- OK- select page size from 10, 20,50, 100 or all results
 
 
 ⬇️⬇️⬇️
