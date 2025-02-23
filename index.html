@@ -40,7 +40,11 @@
         </thead>
         <tbody id="tableBody"></tbody>
     </table>
-
+    <div class="navigation">
+        <input type="button" value="Previous page" id="prev" data-start="0" disabled="true">
+        <input type="hidden" id="current" data-start="0">
+        <input type="button" value="Next page" id ="next" data-start="20">
+    </div>
     <script type="module">
         import { sortable } from './sortable.js'
         sortable()
