@@ -43,6 +43,9 @@ function display(allHeroes) {
     const tableBody = document.getElementById("tableBody");
     generateTableHeaders(tableHeader, defaultFields);
 
+    
+    addSortingFunctionality(tableHeader, tableBody, defaultFields, allHeroes);
+
     let filteredHeroes = allHeroes; //start will allHeroes
 
     //SEARCH get searchInput
@@ -71,10 +74,105 @@ function generateTableHeaders(tableHeader, defaultFields) {
 
     Object.keys(defaultFields).forEach(key => {
         let th = document.createElement("th");
-        th.textContent = `ColumnHeader${headerCount}. ${key}`; //TEMPORARY headerCount
+        let button = document.createElement("button");
+        button.textContent = `ColumnHeader${headerCount}\n.${key}`; //TEMPORARY headerCount
+        button.setAttribute('data-field', defaultFields[key]);
+        th.appendChild(button);
+        //th.textContent = `ColumnHeader${headerCount}. ${key}`; //TEMPORARY headerCount
         tableHeader.appendChild(th);
         headerCount++; //TEMPORARY
     });
+}
+
+function addSortingFunctionality(tableHeader, tableBody, defaultFields, allHeroes) {
+    const headers = tableHeader.querySelectorAll ('th button');
+    headers.forEach(header => {
+        header.addEventListener('click', () => {
+            const field = header.getAttribute('data-field');
+            const isAscending = header.classList.toggle('asc');
+            header.classList.toggle('desc', !isAscending);
+
+            // Remove sorting classes from other headers
+            headers.forEach(h => {
+                if (h !== header) {
+                    h.classList.remove('asc', 'desc');
+                }
+            });
+            sortHeroes(allHeroes, field, isAscending);
+            updateTable(tableBody, defaultFields, allHeroes, allHeroes.length);
+        });
+    });
+
+}
+
+function sortHeroes(heroes, field, isAscending) {
+
+    const missingValues = 
+    ['undefined', 'null', '', '-', 'N/A', '0 cm', '0 kg', '0', '- / 0 cm', '- lb', '0 kg'];
+    
+    heroes.sort((a, b) => {
+
+        let aValue = getNestedValue(a, field);
+        let bValue = getNestedValue(b, field);
+
+        //Function to check if a value is considered missing
+        const isMissing = (value) => {
+            if (Array.isArray(value)) {
+                return value.every(v => isMissing(v));
+            }
+            const strValue = String(value).trim().toLowerCase();
+            return value === undefined || value === null || 
+            missingValues.includes(strValue);
+        };
+
+        //Handle missing values, always put missing values at the end, regardless of sort direction
+        if (isMissing(aValue) && isMissing(bValue)) return 0;
+        if (isMissing(aValue)) return 1; 
+        if (isMissing(bValue)) return -1;
+
+        // Special handling for height
+        if (field === 'appearance.height') {
+            aValue = parseHeight(Array.isArray(aValue) ? aValue[1] : aValue);
+            bValue = parseHeight(Array.isArray(bValue) ? bValue[1] : bValue);
+        } else if (Array.isArray(aValue) && Array.isArray(bValue)) {
+            aValue = aValue.find(v => !isMissing(v)) || aValue[0];
+            bValue = bValue.find(v => !isMissing(v)) || bValue[0];
+        }
+
+        //Convert to string and lowercase for comparison
+        aValue = String(aValue).toLowerCase();
+        bValue = String(bValue).toLowerCase();
+
+        //Check if values are numeric
+        const aNum = parseFloat(aValue.replace(/[^\d.-]/g, ''));
+        const bNum = parseFloat(bValue.replace(/[^\d.-]/g, ''));
+
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+            return isAscending ? aNum - bNum : bNum - aNum;
+        }
+
+        //Sort alphabetically
+        return isAscending ? aValue.localeCompare(bValue) :
+            bValue.localeCompare(aValue);
+    });
+}
+
+function parseHeight(heightString) {
+    if (!heightString) return NaN;
+
+    // Convert string to lowercase for easier comparison
+    const lowerCaseHeight = heightString.toLowerCase();
+
+    // Extract numeric value from the string
+    const numericValue = parseFloat(lowerCaseHeight.replace(/[^\d.]/g, ''));
+
+    if (isNaN(numericValue)) return NaN;
+
+    // Check if the height is in meters
+    if (lowerCaseHeight.includes('m') && !lowerCaseHeight.includes('cm')) {
+        return numericValue * 100; // Convert meters to centimeters
+    }
+    return numericValue; // Assume centimeters for all other cases
 }
 
 function updateTable(tableBody, defaultFields, filteredHeroes, currentDisplayCount) {
