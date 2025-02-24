@@ -192,7 +192,31 @@ function sortHeroes(heroes, field, isAscending) {
         let aValue = getNestedValue(a, field);
         let bValue = getNestedValue(b, field);
 
-        //Convert to string and lowercase for comparison
+        //Function to check if a value is considered missing
+        const isMissing = (value) => {
+            if (Array.isArray(value)) {
+                return value.every(v => isMissing(v));
+            }
+            const strValue = String(value).trim().toLowerCase();
+            return value === undefined || value === null ||
+                missingValues.includes(strValue);
+        };
+
+         //Handle missing values, always put missing values at the end, regardless of sort direction
+        if (isMissing(aValue) && isMissing(bValue)) return 0;
+        if (isMissing(aValue)) return 1; 
+        if (isMissing(bValue)) return -1;
+
+        // Special handling for height
+        if (field === 'appearance.height') {
+            aValue = parseHeight(Array.isArray(aValue) ? aValue[1] : aValue);
+            bValue = parseHeight(Array.isArray(bValue) ? bValue[1] : bValue);
+        } else if (Array.isArray(aValue) && Array.isArray(bValue)) {
+            aValue = aValue.find(v => !isMissing(v)) || aValue[0];
+            bValue = bValue.find(v => !isMissing(v)) || bValue[0];
+        }
+    
+        //For other fields, convert to lowercase strings for comparison
         aValue = String(aValue).toLowerCase();
         bValue = String(bValue).toLowerCase();
 
@@ -208,35 +232,14 @@ function sortHeroes(heroes, field, isAscending) {
         const aNum = parseFloat(aValue.replace(/[^\d.-]/g, ''));
         const bNum = parseFloat(bValue.replace(/[^\d.-]/g, ''));
 
-        //Function to check if a value is considered missing
-        const isMissing = (value) => {
-            if (Array.isArray(value)) {
-                return value.every(v => isMissing(v));
-            }
-            const strValue = String(value).trim().toLowerCase();
-            return value === undefined || value === null ||
-                missingValues.includes(strValue);
-        };
-
-        //Handle missing values, always put missing values at the end, regardless of sort direction
-        if (isMissing(aValue) && isMissing(bValue)) return 0;
-        if (isMissing(aValue)) return 1;
-        if (isMissing(bValue)) return -1;
-
-        // Special handling for height
-        if (field === 'appearance.height') {
-            aValue = parseHeight(Array.isArray(aValue) ? aValue[1] : aValue);
-            bValue = parseHeight(Array.isArray(bValue) ? bValue[1] : bValue);
-        } else if (Array.isArray(aValue) && Array.isArray(bValue)) {
-            aValue = aValue.find(v => !isMissing(v)) || aValue[0];
-            bValue = bValue.find(v => !isMissing(v)) || bValue[0];
-        }
-
         if (!isNaN(aNum) && !isNaN(bNum)) {
             return isAscending ? aNum - bNum : bNum - aNum;
         }
 
-        //Sort alphabetically
+        // Sort alphabetically or numerically
+        if (!isNaN(aValue) && !isNaN(bValue)) {
+            return isAscending ? aValue - bValue : bValue - aValue;
+        }
         return isAscending ? aValue.localeCompare(bValue) :
             bValue.localeCompare(aValue);
     });
@@ -252,6 +255,12 @@ function parseHeight(heightString) {
     const numericValue = parseFloat(lowerCaseHeight.replace(/[^\d.]/g, ''));
 
     if (isNaN(numericValue)) return NaN;
+
+     // Check if the height is in feet and inches
+    if (lowerCaseHeight.includes("'")) {
+        const [feet, inches] = lowerCaseHeight.split("'");
+        return (parseFloat(feet) * 30.48) + (parseFloat(inches) * 2.54);
+    }
 
     // Check if the height is in meters
     if (lowerCaseHeight.includes('m') && !lowerCaseHeight.includes('cm')) {
@@ -314,7 +323,6 @@ function extractBracketedText(value) {
     console.log(value); // Log the value if no match is found
     return value; // Return the original value if no brackets are found
 }
-
 
 // Function to handle names or places starting with 'A' (or any other specific case)
 function handleStartingWithA(value) {

@@ -1,49 +1,52 @@
-# 📋 TO-DO LIST
+# Smartypants
+# Sortable || Superhero Data Organizer
 
-## ✅ FETCH: DONE
-- OK- fetch data -- just use the code provided
+## Overview
+This project is a web application that organizes and displays superhero data. It allows users to view, search, and sort information about various superheroes.
 
-## ✅ DISPLAY: DONE
-- OK- table - dynamically created depending on the data
-- OK- only show some of the fields
-- OK- default 20 per page
-- OK- select page size from 10, 20,50, 100 or all results
+## Features
+- Fetches superhero data from an API
+- Displays superhero information in a table format
+- Allows pagination with selectable page sizes (10, 20, 50, 100, or all results)
+- Provides an interactive search functionality to filter heroes by name
+- Enables sorting of data by clicking on column headers
+- Handles missing values in sorting
 
-## ✅ SEARCH: DONE
-- OK- search bar (but no need for button)
-- OK- search name as string
-- OK- searching "man" should find all superheros with "man" in their name: doesn't matter if searchkey is at start, end, inside or exact content of the value (see quest fifty shades of cold)
-- OK- interactive: filtered after every keystroke/character input (see keycodes symphony)
+## Technologies Used
+- HTML
+- CSS
+- Vanilla JavaScript
+
+## API Used
+This project uses the Superhero API:
+https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json
+
+## Project Structure
+- index.html: Main HTML file
+- styles.css: CSS styles for the application
+- script.js: JavaScript file containing all the logic
 
 
-⬇️⬇️⬇️
+## Getting Started
+1. Clone the repository:
 
-## 🚧 SORT: IN PROGRESS
-- sortable alphabetically or numerically (ascending is a-z, 1-9)
-- default: column name by ascending order
-- first click on heading: sort data ascending
-- consecutive clicks: toggle between ascending and descending
-- numerical values: initially stored as strings. so need to be parsed (slice characters or regex the numbers then parseInt?). For example, when the weight column is sorted in ascending order, then "78 kg" must be displayed before "100 kg".
-- missing values: always sorted last
+```
+git clone https://01.gritlab.ax/git/isaavuor/sortable
+```
+2. Open the index.html file in your web browser.
 
-## ??? SPEED
-- 5 minutes loading?
+## Usage
+1. Use the dropdown menu to select the number of heroes displayed per page.
 
-## AUDIT
-- review audit!
+2. Type in the search bar to filter heroes by name.
 
------
-## ⭐ BONUS
+3. Click on column headers to sort the data.
 
-### DISPLAY
-- Detail view. Clicking a hero from the list will show all the details and large image.
+4. Use the pagination buttons to navigate through the results.
 
-### SEARCH
-- Specify the field that the search applies to.
-- Custom search operators: include, exclude, fuzzy, equal, not equal, greater than and lesser than for numbers (including weight and height).
+## Collaborators
+ - Inka Säävuori
+ - Jedi Reston
+ - Mayuree Reunsati
 
-### DESIGN
-- have fun
-
-### URL
-- Modify the URL with the search term, so that if you copy and paste the URL in a different tab, it will display the same column filters. If you have implemented detail view, the state of which hero is displayed should also form part of the URL.
+![alt text](smartypants.png)

@@ -56,6 +56,23 @@ table th button {
     cursor: pointer;
 }
 
+
+table th button::after {
+    content: '\25B2'; /* Upward triangle */
+    margin-left: 5px;
+    opacity: 0.5;
+}
+
+table th button.asc::after {
+    content: '\25B2'; /* Upward triangle */
+    opacity: 1;
+}
+
+table th button.desc::after {
+    content: '\25BC'; /* Downward triangle */
+    opacity: 1;
+}
+
 .navigation {
     display: inline-block;
     text-align: center;
